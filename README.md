@@ -1,5 +1,6 @@
 # Snake
 Snake in Java with automatic functionality
+Created by Zachary Mankowitz (@Mangowatz) 12/7/2021 5782
 
 Not sure why this was such a hard thing for me to find but I orginally wanted to write an AI for snake. Something that wouldn't be too complex. Turns out it's complex.
 So I started making my own Snake game (orginal code bassed off CodingWithTim) and made a few basic algorithms so get the train moving. 
