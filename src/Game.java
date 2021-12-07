@@ -1,7 +1,4 @@
-import org.neuroph.core.NeuralNetwork;
-import org.neuroph.nnet.Perceptron;
-
-import javax.swing.*;
+ import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
