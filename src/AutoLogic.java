@@ -190,9 +190,19 @@ public class AutoLogic{
     }
 
 /*
+This wil hopefully be utilizing the lee algorithm
+Every point will be assigned an i value starting from snake and increasing the more hops it takes
+Points already scanned or obstructed will be ignored
+Points will continue from points just created
+
+we will need:
+scannedOrObstructed
+iValue
+
 
  */
     public void v4(int x, int y) {
+
     }
 
     public void v5(int x, int y) {
