@@ -15,6 +15,9 @@ public class Graphics
         private Game game;
         private AutoLogic a;
         private int red, blue, green;
+        private int gd = Game.dimension;
+        private int w = Game.width;
+        private int h = Game.height;
 
 
 
@@ -73,12 +76,13 @@ public class Graphics
                 }blue=0;
 
                 for(int j =0; j<a.getPointData().size();j++){
-                    g2d.setColor(Color.white);
-                    if(a.getPointData().get(j).isScanned()){
+                    g2d.setColor(Color.green);
+                    if(a.getPointData().get(j).scanStatus()){
                         g2d.setColor(Color.red);
                     }
-                    g2d.drawRect(a.getPointData().get(j).x, a.getPointData().get(j).y,30,30);
-                }
+                    g2d.fillRect(a.getPointData().get(j).x*gd, a.getPointData().get(j).y*gd,gd,gd);
+                    }
+
 
             }else{
                 g2d.setColor(Color.LIGHT_GRAY);//food

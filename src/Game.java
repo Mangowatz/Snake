@@ -2,7 +2,6 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.ArrayList;
 
 public class Game
         implements KeyListener {
@@ -10,8 +9,10 @@ public class Game
 
     private Snake player;
     private Food food;
-    private Graphics graphics;
     private AutoLogic autoLogic;
+    private PointData pointData;
+    private Graphics graphics;
+
 
     private int xDisplacement;
     private int yDisplacement;
@@ -32,10 +33,11 @@ public class Game
         window = new JFrame();
         player = new Snake();
         food = new Food(player);
-        graphics = new Graphics(this);
         autoLogic = new AutoLogic(this);
+        pointData = new PointData(this);
+        graphics = new Graphics(this);
 
-        //NeuralNetwork neuralNetwork = new Perceptron(2, 1);
+
 
         window.add(graphics);
 
@@ -85,8 +87,9 @@ public class Game
                 2 8.2
                 3 46
                 */
+                autoLogic.v3(food.getX(), food.getY());
                 autoLogic.v4(food.getX(), food.getY());
-
+                pointData.pointDataRefresh();
             }
 
             System.out.println();//blank line

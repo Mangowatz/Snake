@@ -13,7 +13,7 @@ public class AutoLogic{
     private int bodyXMin = 0;
     private int bodyYMax = 0;
     private int bodyYMin = 0;
-    ArrayList<pointData> dataPoint = new ArrayList<pointData>(); //contain point data
+    ArrayList<PointData> dataPoint = new ArrayList<PointData>(); //contain point data
     String[] moves; //contain all moves snake needs to make
 
 
@@ -211,15 +211,10 @@ ArryList to contain it
     public void v4(int x, int y) {
 
         //get snake current movable moves (can't include goint backwards)
-
-        for(int j =0; j<30;j++){
-            for(int k = 0; k<30;k++){
-                if(checkCollision(j,k)){
-                    dataPoint.add(new pointData(j,k,0,true));
-                }
-                dataPoint.add(new pointData(j,k,0,false));
-            }
+        for(Rectangle r :player.getBody()){
+            dataPoint.add(new PointData(r.x, r.y,0,true));
         }
+
         //check all surrounding squares
 
     }
@@ -286,7 +281,7 @@ ArryList to contain it
 
     }
 
-    private boolean checkCollision(int x, int y) {
+    public boolean checkCollision(int x, int y) {
         for (int i = 1; i < player.getBody().size(); i++) {
             if (x == player.getBody().get(i).x/20 && y == player.getBody().get(i).y/20) {
                 System.out.println("checkCollision() self collision");
@@ -300,7 +295,7 @@ ArryList to contain it
         }
         return false;
     }
-    public ArrayList<pointData> getPointData(){return dataPoint;}
+    public ArrayList<PointData> getPointData(){return dataPoint;}
 
 
 }
