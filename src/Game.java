@@ -85,7 +85,7 @@ public class Game
                 2 8.2
                 3 46
                 */
-                autoLogic.v3(food.getX(), food.getY());
+                autoLogic.v4(food.getX(), food.getY());
 
             }
 
@@ -161,6 +161,8 @@ public class Game
     public void setFood(Food food) {
         this.food = food;
     }
+
+    public AutoLogic getAutoLogic(){return autoLogic;}
 
     public JFrame getWindow() {
         return window;

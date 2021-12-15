@@ -13,6 +13,7 @@ public class Graphics
         private Snake s;
         private Food f;
         private Game game;
+        private AutoLogic a;
         private int red, blue, green;
 
 
@@ -24,6 +25,7 @@ public class Graphics
             game = g;
             s = g.getPlayer();
             f = g.getFood();
+            a = g.getAutoLogic();
 
 
             //add listener
@@ -69,12 +71,14 @@ public class Graphics
                     g2d.setColor(new Color(0,255,blue));
                     g2d.fill(r);
                 }blue=0;
-                /*
-                g2d.setColor(Color.red);
-                g2d.fillRect(s.getNextMove().x*Game.dimension,s.getNextMove().y*Game.dimension,20,20);
-                g2d.setColor(Color.white);
-                g2d.fillRect(s.getNextMove().x*Game.dimension+2,s.getNextMove().y*Game.dimension+2,15,15);
-                 */
+
+                for(int j =0; j<a.getPointData().size();j++){
+                    g2d.setColor(Color.white);
+                    if(a.getPointData().get(j).isScanned()){
+                        g2d.setColor(Color.red);
+                    }
+                    g2d.drawRect(a.getPointData().get(j).x, a.getPointData().get(j).y,30,30);
+                }
 
             }else{
                 g2d.setColor(Color.LIGHT_GRAY);//food

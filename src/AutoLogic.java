@@ -1,3 +1,6 @@
+import java.awt.*;
+import java.util.ArrayList;
+
 //created by Zachary Mankowitz (@Mangowatz) 2021-2022
 public class AutoLogic{
 
@@ -10,6 +13,9 @@ public class AutoLogic{
     private int bodyXMin = 0;
     private int bodyYMax = 0;
     private int bodyYMin = 0;
+    ArrayList<pointData> dataPoint = new ArrayList<pointData>(); //contain point data
+    String[] moves; //contain all moves snake needs to make
+
 
     public static final int width = 30;
     public static final int height = 30;
@@ -198,10 +204,23 @@ Points will continue from points just created
 we will need:
 scannedOrObstructed
 iValue
+ArryList to contain it
 
 
  */
     public void v4(int x, int y) {
+
+        //get snake current movable moves (can't include goint backwards)
+
+        for(int j =0; j<30;j++){
+            for(int k = 0; k<30;k++){
+                if(checkCollision(j,k)){
+                    dataPoint.add(new pointData(j,k,0,true));
+                }
+                dataPoint.add(new pointData(j,k,0,false));
+            }
+        }
+        //check all surrounding squares
 
     }
 
@@ -281,4 +300,7 @@ iValue
         }
         return false;
     }
+    public ArrayList<pointData> getPointData(){return dataPoint;}
+
+
 }
