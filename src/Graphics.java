@@ -79,9 +79,12 @@ public class Graphics
                     g2d.setColor(Color.green);
                     if(a.getPointData().get(j).scanStatus()){
                         g2d.setColor(Color.red);
+                        System.out.println("Coloring "+g2d.getPaint()+": "+ a.getPointData().get(j));
                     }
-                    g2d.fillRect(a.getPointData().get(j).x*gd, a.getPointData().get(j).y*gd,gd,gd);
-                    }
+                    System.out.println("Coloring "+g2d.getPaint()+": "+ a.getPointData().get(j).x+", "+a.getPointData().get(j).y);
+                    g2d.fillRect(a.getPointData().get(j).x, a.getPointData().get(j).y,gd,gd);
+
+                }
 
 
             }else{

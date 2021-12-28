@@ -87,9 +87,12 @@ public class Game
                 2 8.2
                 3 46
                 */
+                pointData.pointDataRefresh();
                 autoLogic.v3(food.getX(), food.getY());
                 autoLogic.v4(food.getX(), food.getY());
-                pointData.pointDataRefresh();
+
+
+                //player.move(); //for manual
             }
 
             System.out.println();//blank line
@@ -130,16 +133,16 @@ public class Game
 
         if (graphics.state.equals("RUNNING")) {
 
-            if (keyCode == KeyEvent.VK_W) {
+            if (keyCode == KeyEvent.VK_UP) {
                 player.up();
                 System.out.println("W");
-            } else if (keyCode == KeyEvent.VK_S) {
+            } else if (keyCode == KeyEvent.VK_DOWN) {
                 player.down();
                 System.out.println("S");
-            } else if (keyCode == KeyEvent.VK_A) {
+            } else if (keyCode == KeyEvent.VK_LEFT) {
                 player.left();
                 System.out.println("A");
-            } else if (keyCode == KeyEvent.VK_D) {
+            } else if (keyCode == KeyEvent.VK_RIGHT) {
                 player.right();
                 System.out.println("D");
             }
@@ -166,6 +169,8 @@ public class Game
     }
 
     public AutoLogic getAutoLogic(){return autoLogic;}
+
+    public PointData getPointData(){return pointData;}
 
     public JFrame getWindow() {
         return window;

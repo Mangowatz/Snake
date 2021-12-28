@@ -210,7 +210,7 @@ ArryList to contain it
  */
     public void v4(int x, int y) {
 
-        //get snake current movable moves (can't include goint backwards)
+        //get snake current movable moves (can't include going backwards)
         for(Rectangle r :player.getBody()){
             dataPoint.add(new PointData(r.x, r.y,0,true));
         }
@@ -296,6 +296,5 @@ ArryList to contain it
         return false;
     }
     public ArrayList<PointData> getPointData(){return dataPoint;}
-
 
 }

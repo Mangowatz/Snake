@@ -23,17 +23,23 @@ public class PointData {
 
 
     public void pointDataRefresh(){
-            a.dataPoint.clear();
 
+           System.out.println("Clearing dataPoint:");
+           //System.out.println(a.dataPoint);
+            a.dataPoint.clear();
+            
+/*
         for(int j =0; j<30;j++){
             for(int k = 0; k<30;k++){
                 if(a.checkCollision(j,k)){
                     a.dataPoint.add(new PointData(j,k,0,true));
+                    System.out.println("New positive: "+j+", "+k);
                 }
                 a.dataPoint.add(new PointData(j,k,0,false));
+                //System.out.println("New negative: "+j+", "+k);
             }
         }
-
+*/
     }
 
 
