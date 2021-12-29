@@ -3,18 +3,18 @@ import java.awt.*;
 public class PointData {
 
     int i,x,y;
-    boolean scanStatus;
+    boolean isBlocked;
     private final int gd = Game.dimension;
     private Game game;
     private AutoLogic a;
     /*
     this assigns every point in the game a status and i value
      */
-    public PointData(int x, int y,int i, boolean scanStatus){
+    public PointData(int x, int y,int i, boolean isBlocked){
         this.x = x;
         this.y = y;
         this.i = i;
-        this.scanStatus = scanStatus;
+        this.isBlocked = isBlocked;
     }
     public PointData(Game g){
         game= g;
@@ -26,8 +26,9 @@ public class PointData {
 
            System.out.println("Clearing dataPoint:");
            //System.out.println(a.dataPoint);
+            a.dataPointBlocked.clear();
             a.dataPoint.clear();
-            
+
 /*
         for(int j =0; j<30;j++){
             for(int k = 0; k<30;k++){
@@ -67,12 +68,12 @@ public class PointData {
         this.y = y;
     }
 
-    public boolean scanStatus() {
-        return scanStatus;
+    public boolean isBlocked() {
+        return isBlocked;
     }
 
-    public void setScanned(boolean scanStatus) {
-        this.scanStatus = scanStatus;
+    public void setScanned(boolean isBlocked) {
+        this.isBlocked = isBlocked;
     }
 
 

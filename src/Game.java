@@ -67,7 +67,7 @@ public class Game
 
     public void update() {
 
-        //graphical update
+
         if (graphics.state.equals("RUNNING")) {
             System.out.println("Head cords: "+player.getX()/dimension+", "+player.getY()/dimension + " "+player.getMove());
             System.out.println("Next move cords: "+player.getNextMove());
@@ -82,7 +82,7 @@ public class Game
                 System.out.println("Self Collision");
                 graphics.state = "END";
             } else {
-                /*avareges score on 5 run test
+                /*averages score on 5 run test
                 1 11.6
                 2 8.2
                 3 46
@@ -97,9 +97,7 @@ public class Game
 
             System.out.println();//blank line
         }
-        if(graphics.state.equals("END")){
-            //restart();
-        }
+
     }
 
 
