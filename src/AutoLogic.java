@@ -14,6 +14,7 @@ public class AutoLogic{
     private int bodyXMin = 0;
     private int bodyYMax = 0;
     private int bodyYMin = 0;
+    private final int gd = Game.dimension;
     ArrayList<PointData> dataPoint = new ArrayList<PointData>(); //contain point data
     ArrayList<PointData> dataPointBlocked = new ArrayList<PointData>(); //contain point data
     String[] moves; //contain all moves snake needs to make
@@ -205,50 +206,52 @@ Points will continue from points just created
 
  */
     public void v4(int x, int y) {
-
+        dataPoint.clear();
         //store all barriers on field
-        for(Rectangle r :player.getBody()){
-            dataPointBlocked.add(new PointData(r.x, r.y,-1,true));
+        for (Rectangle r : player.getBody()) {
+            dataPoint.add(new PointData(r.x, r.y, -1, true));
         }
 
         //add head of snake at i=0
-        dataPoint.add(new PointData(player.getX(),player.getY(),0,true));
+        dataPoint.set(0,new PointData(player.getX(), player.getY(), 0, false));
+
 
         //start from head (i=0). add dataPoint all adjacent points as i+1. scan i+1 points and add adjacent...
 
-        for(int i = 0; i<10;i++) {//length of path
-            for (int j = 0; j < getPointData().size(); j++) {//pass through all existing points
-                if (getPointData().get(j).i == j) {//if i value of current point being checked equals i value being searched for
+        for (int i = 0; i <10; i++) {//length of path range
+            for (int j = 0; j < getPointData().size(); j++) {//pass through all existing points (not blocked as said on next line)
+                if (getPointData().get(j).i == i && !getPointData().get(j).isBlocked()) {//if i value of current point being checked equals i value being searched for
                     //add new surrounding points
-                    dataPoint.add(new PointData(getPointData().get(j).x, getPointData().get(j).y - 1, i + 1, false));
-                    dataPoint.add(new PointData(getPointData().get(j).x, getPointData().get(j).y + 1, i + 1, false));
-                    dataPoint.add(new PointData(getPointData().get(j).x - 1, getPointData().get(j).y, i + 1, false));
-                    dataPoint.add(new PointData(getPointData().get(j).x + 1, getPointData().get(j).y, i + 1, false));
+
+                    dataPoint.add(new PointData(getPointData().get(j).x, getPointData().get(j).y - gd, i + 1, false));
+                    dataPoint.add(new PointData(getPointData().get(j).x, getPointData().get(j).y + gd, i + 1, false));
+                    dataPoint.add(new PointData(getPointData().get(j).x - gd, getPointData().get(j).y, i + 1, false));
+                    dataPoint.add(new PointData(getPointData().get(j).x + gd, getPointData().get(j).y, i + 1, false));
+
+                    //check for repeat point
+                    for(int k = dataPoint.size()-1;k>dataPoint.size()-5;k--) {//if any of the last four points
+                        for (int l = 0; l<dataPoint.size()-4;l++ ) {
+                            System.out.println("Size: "+dataPoint.size()+", k: "+k+", l: "+l);
+                            if (dataPoint.get(k).getPoint().equals(dataPoint.get(l).getPoint())) {//equal another point
+                                dataPoint.remove(k);
+                                k--;
+                            }
+                        }
+                    }
+                    System.out.println("Added new nodes for " + getPointData().get(j).x / gd + ", " + getPointData().get(j).y / gd +" w/ i val " + getPointData().get(j).i);
                 }
             }
 
             //delay in scanning
             try {
-                Thread.sleep(50);
+                Thread.sleep(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-            //if element in dataPoint has same coordinates as one in dataPointBlocked, remove that element in dataPoint
-            //also if repeated point
-            for(int k =0; k<getPointDataBlocked().size();k++){
-                for(int l =0; l<getPointData().size();l++){
-                    if((getPointDataBlocked().get(k).x==getPointData().get(l).x
-                        &&getPointDataBlocked().get(k).y==getPointData().get(l).y)
-                    ){
-                        System.out.println("removing "+getPointData().get(l).x/20+", "+getPointData().get(l).y/20);
-                        getPointData().remove(l);
-                        l--;
-                    }
-                }
-            }
-
-        System.out.println(getPointData());
+        for (int i =0;i<getPointData().size();i++) {
+            System.out.print(getPointData().get(i).x/20+","+getPointData().get(i).y/20+","+getPointData().get(i).i+". ");
+        }
     }
 
     public void v5(int x, int y) {

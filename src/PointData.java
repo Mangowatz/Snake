@@ -11,36 +11,16 @@ public class PointData {
     this assigns every point in the game a status and i value
      */
     public PointData(int x, int y,int i, boolean isBlocked){
-        this.x = x;
-        this.y = y;
-        this.i = i;
-        this.isBlocked = isBlocked;
+        if(x>0&&x/gd<30&&y>0&&y/gd<30) {
+            this.x = x;
+            this.y = y;
+            this.i = i;
+            this.isBlocked = isBlocked;
+        }
     }
     public PointData(Game g){
         game= g;
         a = game.getAutoLogic();
-    }
-
-
-    public void pointDataRefresh(){
-
-           System.out.println("Clearing dataPoint:");
-           //System.out.println(a.dataPoint);
-            a.dataPointBlocked.clear();
-            a.dataPoint.clear();
-
-/*
-        for(int j =0; j<30;j++){
-            for(int k = 0; k<30;k++){
-                if(a.checkCollision(j,k)){
-                    a.dataPoint.add(new PointData(j,k,0,true));
-                    System.out.println("New positive: "+j+", "+k);
-                }
-                a.dataPoint.add(new PointData(j,k,0,false));
-                //System.out.println("New negative: "+j+", "+k);
-            }
-        }
-*/
     }
 
 
@@ -76,5 +56,6 @@ public class PointData {
         this.isBlocked = isBlocked;
     }
 
+    public Point getPoint(){return new Point(x,y);}
 
 }

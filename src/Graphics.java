@@ -76,21 +76,16 @@ public class Graphics
                 }blue=0;
 
                 //paint blocked squares
-                for(int j =0; j<a.getPointDataBlocked().size();j++){
-                    g2d.setColor(Color.green);
-                    if(a.getPointDataBlocked().get(j).isBlocked()){
-                        g2d.setColor(Color.red);
-                    }
-                    System.out.println("Coloring blocked "+g2d.getPaint()+": "+ a.getPointDataBlocked().get(j).x/gd+", "+a.getPointDataBlocked().get(j).y/gd);
-                    g2d.fillRect(a.getPointDataBlocked().get(j).x, a.getPointDataBlocked().get(j).y,gd,gd);
-                }
-
-                //print logic for free squares
                 for(int j =0; j<a.getPointData().size();j++){
-                    g2d.setColor(new Color(0,0,/*a.getPointData().get(j).i**/200));
-                    System.out.println("Coloring scanned "+g2d.getPaint()+": "+ a.getPointData().get(j).x/gd+", "+a.getPointData().get(j).y/gd);
+                    if(a.getPointData().get(j).isBlocked()){
+                        g2d.setColor(Color.red);
+                    }else if(j==0){//head
+                        g2d.setColor(Color.CYAN);
+                    }else{
+                        g2d.setColor(new Color(0,0,a.getPointData().get(j).getI()*20));
+                    }
+                    System.out.println("Coloring "+g2d.getPaint()+": "+ a.getPointData().get(j).x/gd+", "+a.getPointData().get(j).y/gd);
                     g2d.fillRect(a.getPointData().get(j).x, a.getPointData().get(j).y,gd,gd);
-
                 }
 
             }else{

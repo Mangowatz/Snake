@@ -10,7 +10,6 @@ public class Game
     private Snake player;
     private Food food;
     private AutoLogic autoLogic;
-    private PointData pointData;
     private Graphics graphics;
 
 
@@ -34,10 +33,7 @@ public class Game
         player = new Snake();
         food = new Food(player);
         autoLogic = new AutoLogic(this);
-        pointData = new PointData(this);
         graphics = new Graphics(this);
-
-
 
         window.add(graphics);
 
@@ -87,12 +83,12 @@ public class Game
                 2 8.2
                 3 46
                 */
-                pointData.pointDataRefresh();
+
                 autoLogic.v3(food.getX(), food.getY());
                 autoLogic.v4(food.getX(), food.getY());
 
 
-                //player.move(); //for manual
+               // player.move(); //for manual
             }
 
             System.out.println();//blank line
@@ -167,8 +163,6 @@ public class Game
     }
 
     public AutoLogic getAutoLogic(){return autoLogic;}
-
-    public PointData getPointData(){return pointData;}
 
     public JFrame getWindow() {
         return window;
