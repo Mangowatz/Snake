@@ -11,11 +11,17 @@ public class PointData {
     this assigns every point in the game a status and i value
      */
     public PointData(int x, int y,int i, boolean isBlocked){
-        if(x>0&&x/gd<30&&y>0&&y/gd<30) {
+        if(x>=0&&x/gd<=30&&y>=0&&y/gd<=30) {
             this.x = x;
             this.y = y;
             this.i = i;
             this.isBlocked = isBlocked;
+        }
+    }
+    public PointData(int x, int y){
+        if(x>=0&&x/gd<=30&&y>=0&&y/gd<=30) {
+            this.x = x;
+            this.y = y;
         }
     }
     public PointData(Game g){

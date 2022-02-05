@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 //created by Zachary Mankowitz (@Mangowatz) 2021-2022
@@ -14,9 +15,10 @@ public class AutoLogic{
     private int bodyXMin = 0;
     private int bodyYMax = 0;
     private int bodyYMin = 0;
+    private int foodLocation;
     private final int gd = Game.dimension;
     ArrayList<PointData> dataPoint = new ArrayList<PointData>(); //contain point data
-    ArrayList<PointData> dataPointBlocked = new ArrayList<PointData>(); //contain point data
+    ArrayList<PointData> foodPath = new ArrayList<PointData>(); //contain food path
     String[] moves; //contain all moves snake needs to make
 
 
@@ -206,52 +208,112 @@ Points will continue from points just created
 
  */
     public void v4(int x, int y) {
-        dataPoint.clear();
-        //store all barriers on field
-        for (Rectangle r : player.getBody()) {
-            dataPoint.add(new PointData(r.x, r.y, -1, true));
-        }
+        if(foodPath.isEmpty()) {
+            dataPoint.clear();
+            //store all barriers on field
+            for (Rectangle r : player.getBody()) {
+                dataPoint.add(new PointData(r.x, r.y, -1, true));
+            }
 
-        //add head of snake at i=0
-        dataPoint.set(0,new PointData(player.getX(), player.getY(), 0, false));
+            //add head of snake at i=0
+            dataPoint.set(0, new PointData(player.getX(), player.getY(), 0, false));
 
 
-        //start from head (i=0). add dataPoint all adjacent points as i+1. scan i+1 points and add adjacent...
+            //start from head (i=0). add dataPoint all adjacent points as i+1. scan i+1 points and add adjacent...
 
-        for (int i = 0; i <10; i++) {//length of path range
-            for (int j = 0; j < getPointData().size(); j++) {//pass through all existing points (not blocked as said on next line)
-                if (getPointData().get(j).i == i && !getPointData().get(j).isBlocked()) {//if i value of current point being checked equals i value being searched for
-                    //add new surrounding points
+            for (int i = 0; i < 30; i++) {//length of path range
+                for (int j = 0; j < getPointData().size(); j++) {//pass through all existing points (not blocked as said on next line)
+                    if (getPointData().get(j).i == i && !getPointData().get(j).isBlocked()) {//if i value of current point being checked equals i value being searched for
+                        //add new surrounding points
 
-                    dataPoint.add(new PointData(getPointData().get(j).x, getPointData().get(j).y - gd, i + 1, false));
-                    dataPoint.add(new PointData(getPointData().get(j).x, getPointData().get(j).y + gd, i + 1, false));
-                    dataPoint.add(new PointData(getPointData().get(j).x - gd, getPointData().get(j).y, i + 1, false));
-                    dataPoint.add(new PointData(getPointData().get(j).x + gd, getPointData().get(j).y, i + 1, false));
+                        dataPoint.add(new PointData(getPointData().get(j).x, getPointData().get(j).y - gd, i + 1, false));
+                        dataPoint.add(new PointData(getPointData().get(j).x, getPointData().get(j).y + gd, i + 1, false));
+                        dataPoint.add(new PointData(getPointData().get(j).x - gd, getPointData().get(j).y, i + 1, false));
+                        dataPoint.add(new PointData(getPointData().get(j).x + gd, getPointData().get(j).y, i + 1, false));
 
-                    //check for repeat point
-                    for(int k = dataPoint.size()-1;k>dataPoint.size()-5;k--) {//if any of the last four points
-                        for (int l = 0; l<dataPoint.size()-4;l++ ) {
-                            System.out.println("Size: "+dataPoint.size()+", k: "+k+", l: "+l);
-                            if (dataPoint.get(k).getPoint().equals(dataPoint.get(l).getPoint())) {//equal another point
-                                dataPoint.remove(k);
-                                k--;
+                        //check for repeat point
+                        for (int k = dataPoint.size() - 1; k > dataPoint.size() - 5; k--) {//if any of the last four points
+                            for (int l = 0; l < dataPoint.size() - 4; l++) {
+                                //System.out.println("Size: "+dataPoint.size()+", k: "+k+", l: "+l);
+                                if (dataPoint.get(k).getPoint().equals(dataPoint.get(l).getPoint())) {//equal another point
+                                    dataPoint.remove(k);
+                                    k--;
+                                }
                             }
                         }
                     }
-                    System.out.println("Added new nodes for " + getPointData().get(j).x / gd + ", " + getPointData().get(j).y / gd +" w/ i val " + getPointData().get(j).i);
+                }
+            }
+            System.out.println("Added new nodes for " + getPointData().get(0).x / gd + ", " + getPointData().get(0).y / gd);
+            for (int i = 0; i < getPointData().size(); i++) {
+                //System.out.print(getPointData().get(i).x / 20 + "," + getPointData().get(i).y / 20 + "," + getPointData().get(i).i + ". ");
+            }
+
+            //now add path from food to snake
+            //food is at x,y
+            //find dataPoint at food location. go to surrounding point with lower i value. add to scan[]
+            //seems like only finds point after hits point...
+
+            for (PointData pd : dataPoint) {
+                if (pd.getPoint().equals(new Point(x * gd, y * gd))) {
+                    System.out.println("found foodPoint match: ");
+                    foodPath.add(pd);
+                    for (int i = foodPath.get(0).getI(); i > 0; i--) {//distance from snake to food measured in i
+                        for (PointData pd2 : dataPoint) {
+                            if (pd2.getI() <= i
+                                    && (pd2.getX() + gd == foodPath.get(foodPath.size() - 1).getX() && pd2.getY() == foodPath.get(foodPath.size() - 1).getY()
+                                    || (pd2.getX() - gd == foodPath.get(foodPath.size() - 1).getX() && pd2.getY() == foodPath.get(foodPath.size() - 1).getY())
+                                    || (pd2.getX() == foodPath.get(foodPath.size() - 1).getX() && pd2.getY() + gd == foodPath.get(foodPath.size() - 1).getY())
+                                    || (pd2.getX() == foodPath.get(foodPath.size() - 1).getX() && pd2.getY() - gd == foodPath.get(foodPath.size() - 1).getY()))) {
+                                foodPath.add(pd2);
+                            }
+                        }
+                    }
+                    break;//no need to keep checking
                 }
             }
 
-            //delay in scanning
-            try {
-                Thread.sleep(0);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            //reverse food path
+            ArrayList<PointData> temp = new ArrayList<PointData>();
+            for (int i = foodPath.size() - 1; i > 0; i--) {
+                if (foodPath.get(i).getI() >= 0) {
+                    temp.add(foodPath.get(i));
+                }
+            }
+
+            foodPath.clear();
+            foodPath = temp;
+            foodPath.add(0, new PointData(player.getX(), player.getY(),0,true));
+
+            for (int i = 1; i < foodPath.size(); i++) { //print path from pov snake in points
+                System.out.println("Food Path: " + getFoodPath().get(i).x / 20 + "," + getFoodPath().get(i).y / 20 + "," + getFoodPath().get(i).i + ". ");
             }
         }
-        for (int i =0;i<getPointData().size();i++) {
-            System.out.print(getPointData().get(i).x/20+","+getPointData().get(i).y/20+","+getPointData().get(i).i+". ");
-        }
+
+        //time to actually start moving the snake!
+
+            if (foodPath.get(1).x > foodPath.get(0).x) {//right
+                player.right();
+            } else if (foodPath.get(1).x < foodPath.get(0).x) { //left
+                player.left();
+            } else if (foodPath.get(1).y > foodPath.get(0).y) {//down
+                player.down();
+            } else {//up
+                player.up();
+            }
+
+            foodPath.remove(0);//remove just done action
+            player.move();
+//            //delay in scanning
+//            try {
+//                Thread.sleep(100);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+
+
+        //foodPath.clear();
+
     }
 
     public void v5(int x, int y) {
@@ -331,6 +393,6 @@ Points will continue from points just created
         return false;
     }
     public ArrayList<PointData> getPointData(){return dataPoint;}
-    public ArrayList<PointData> getPointDataBlocked(){return dataPointBlocked;}
+    public ArrayList<PointData> getFoodPath(){return foodPath;}
 
 }

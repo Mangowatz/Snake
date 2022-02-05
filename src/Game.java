@@ -84,14 +84,14 @@ public class Game
                 3 46
                 */
 
-                autoLogic.v3(food.getX(), food.getY());
+                //autoLogic.v3(food.getX(), food.getY());
                 autoLogic.v4(food.getX(), food.getY());
 
 
                // player.move(); //for manual
             }
 
-            System.out.println();//blank line
+            System.out.println("----END OF ACTION----");//blank line
         }
 
     }
