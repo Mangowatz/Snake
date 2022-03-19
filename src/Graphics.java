@@ -54,26 +54,18 @@ public class Graphics
                 g2d.drawString("Press any key", Game.width/2 * Game.dimension -40, Game.height/2*Game.dimension-20);
 
             }else if(state.equals("RUNNING")){
-                //paint blocked squares
-                for(int j =0; j<a.getPointData().size();j++){
-                    if(j==0){
-                        g2d.setColor(Color.CYAN);
-                    }else if(a.getPointData().get(j).isBlocked()){//head
-                        g2d.setColor(Color.red);
-                    }else{
-                        g2d.setColor(new Color(0,0,255/(a.getPointData().get(j).getI()+1),255));
-                    }
-                    //System.out.println("Coloring "+g2d.getPaint()+": "+ a.getPointData().get(j).x/gd+", "+a.getPointData().get(j).y/gd);
-                    g2d.fillRect(a.getPointData().get(j).x, a.getPointData().get(j).y,gd,gd);
-                }
 
+                //paint foodPath
                 for(PointData pd : a.foodPath){
                     g2d.setColor(Color.MAGENTA);
-                    g2d.fillRect(pd.getX()*gd,pd.getY()*gd,gd,gd);
+                    g2d.fillRect(pd.getX(),pd.getY(),gd,gd);
                 }
-                g2d.setColor(Color.red);//food
+
+                //Paint food
+                g2d.setColor(Color.red);
                 g2d.fillRect(f.getX()*Game.dimension,f.getY() * Game.dimension,Game.dimension,Game.dimension);
 
+                //paint live body
                 for(Rectangle r:s.getBody()){
                     g2d.setColor(Color.GREEN);
                     g2d.fill(r);

@@ -208,7 +208,8 @@ Points will continue from points just created
 
  */
     public void v4(int x, int y) {
-        if(foodPath.isEmpty()) {
+        if(foodPath.size()<=0) {
+            System.out.println("RESETTING FOOD POINT");
             dataPoint.clear();
             //store all barriers on field
             for (Rectangle r : player.getBody()) {
@@ -251,16 +252,15 @@ Points will continue from points just created
 
             //now add path from food to snake
             //food is at x,y
-            //find dataPoint at food location. go to surrounding point with lower i value. add to scan[]
-            //seems like only finds point after hits point...
+            //find dataPoint at food location. go to surrounding point with lower i value. add to dataPoint
 
             for (PointData pd : dataPoint) {
                 if (pd.getPoint().equals(new Point(x * gd, y * gd))) {
-                    System.out.println("found foodPoint match: ");
                     foodPath.add(pd);
-                    for (int i = foodPath.get(0).getI(); i > 0; i--) {//distance from snake to food measured in i
+                    System.out.println("found foodPoint match: "+foodPath.get(0).getPoint());
+                    for (int i = foodPath.get(0).getI()-1; i > 0; i--) {//distance from snake to food measured in i
                         for (PointData pd2 : dataPoint) {
-                            if (pd2.getI() <= i
+                            if (pd2.getI() <= i //go through adjacent points based on I value
                                     && (pd2.getX() + gd == foodPath.get(foodPath.size() - 1).getX() && pd2.getY() == foodPath.get(foodPath.size() - 1).getY()
                                     || (pd2.getX() - gd == foodPath.get(foodPath.size() - 1).getX() && pd2.getY() == foodPath.get(foodPath.size() - 1).getY())
                                     || (pd2.getX() == foodPath.get(foodPath.size() - 1).getX() && pd2.getY() + gd == foodPath.get(foodPath.size() - 1).getY())
@@ -274,6 +274,7 @@ Points will continue from points just created
             }
 
             //reverse food path
+            System.out.println("Reversing...");
             ArrayList<PointData> temp = new ArrayList<PointData>();
             for (int i = foodPath.size() - 1; i > 0; i--) {
                 if (foodPath.get(i).getI() >= 0) {
@@ -284,6 +285,7 @@ Points will continue from points just created
             foodPath.clear();
             foodPath = temp;
             foodPath.add(0, new PointData(player.getX(), player.getY(),0,true));
+            foodPath.add(foodPath.size(), new PointData(x*gd, y*gd,foodPath.get(foodPath.size()-1).getI()+1,true));
 
             for (int i = 1; i < foodPath.size(); i++) { //print path from pov snake in points
                 System.out.println("Food Path: " + getFoodPath().get(i).x / 20 + "," + getFoodPath().get(i).y / 20 + "," + getFoodPath().get(i).i + ". ");
@@ -302,8 +304,8 @@ Points will continue from points just created
                 player.up();
             }
 
-            foodPath.remove(0);//remove just done action
             player.move();
+            foodPath.remove(0);//remove just done action
 //            //delay in scanning
 //            try {
 //                Thread.sleep(100);
