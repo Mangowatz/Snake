@@ -71,6 +71,7 @@ public class Game
                 System.out.println("Food Collision");
                 player.grow();
                 food.randomSpawn(player);
+                autoLogic.setFoodAte(true);
             } else if (checkWallCollision()) {
                 System.out.println("Wall Collision");
                 graphics.state = "END";
